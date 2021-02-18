@@ -3,11 +3,7 @@ pipeline
     parameters {
         string(name: 'Imgtag', description: "Docker Image Tag")
     }    
-    environment {
-        registryCredential = 'klogambigai-dockerhub'
-        imagename = "klogambigai/springboohello"
-        dockerImage = ''
-        }
+    
     agent { label 'jenkin-slave' }
     
     stages{
@@ -26,22 +22,17 @@ pipeline
             }
         }
         stage('Build Docker Image'){
-            steps {
-                script  {
-                    dockerImage=docker.build imagename
-                }    
+            steps{
+                 sh 'docker build -t klogambigai/springboohello:${Imgtag} .'
             }
-        }
+        } 
         stage("Docker Push"){
             steps{
-                script {
-                    docker.withRegistry( '', registryCredential ){
-                        dockerImage.push('$BUILD_NUMBER')
-                        dockerImage.push("${Imgtag}")
-                    }
+                withCredentials([usernamePassword(credentialsId: 'klogambigai-dockerhub', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]) {
+                    sh "docker login -u ${USERNAME} -p ${PASSWORD}"
                 }
+                sh "docker push klogambigai/springboohello:${ImgTag}"               
             }
-                
-        }
+        }    
     }
 }
