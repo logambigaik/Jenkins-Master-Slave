@@ -1,0 +1,47 @@
+pipeline
+{
+    parameters {
+        string(name: 'Imgtag', description: "Docker Image Tag")
+    }    
+    environment {
+        registryCredential = 'klogambigai-dockerhub'
+        imagename = "klogambigai/springboohello"
+        dockerImage = ''
+        }
+    agent { label 'jenkin-slave' }
+    
+    stages{
+        stage('SCM'){
+            steps {
+                checkout($class: 'GitSCM',
+                    branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false,
+                    extensions: [], 
+                    submoduleCfg: [], 
+            	    userRemoteConfigs: [[url: 'https://github.com/logambigaik/Jenkins-Master-Slave.git']])
+            }
+        }
+        stage('Build Artifact'){
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        stage('Build Docker Image'){
+            steps {
+                script  {
+                    dockerImage=docker.build imagename
+                }    
+            }
+        }
+        stage("Docker Push"){
+            steps{
+                script {
+                    docker.withRegistry( '', registryCredential ){
+                        dockerImage.push('$BUILD_NUMBER')
+                        dockerImage.push("${Imgtag}")
+                    }
+                }
+            }
+                
+        }
+    }
+}
