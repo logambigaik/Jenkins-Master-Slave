@@ -1,4 +1,4 @@
-# Install
+# Install in slave machine not in Master
     git
     maven
     docker
@@ -9,3 +9,4 @@
 ![image](https://user-images.githubusercontent.com/54719289/108412825-48d80980-7250-11eb-8ac7-c699b199d6cd.png)
 
 
+![image](https://user-images.githubusercontent.com/54719289/108413535-272b5200-7251-11eb-9ec7-6ffb426c28e2.png)
