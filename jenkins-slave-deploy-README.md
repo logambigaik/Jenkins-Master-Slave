@@ -51,41 +51,7 @@
    Sample pipeline:
    ==============
    
-   
-            def str1 = "Hello World"
-println str1
-
-def arrStr = ['Groovy','Java','Python','NodeJS']
-println arrStr
-b = arrStr.size()
-println b
-
-for ( x in 1..b){
-    println(arrStr[x])
-}
-
-String str2 = new String("Hello World")
-
-if(str1 == str2)
-{
-  println('equal')
-}
-else
-{
-  println('Not equal')
-}
-
-def list1 = []
-list1 = [1, 2, 3, 4];
-println ("After define list:"+ list1)
-
-list1.add(5) //add
-println ("After add list:"+ list1)
-
-list1.pop()  //pop
-println ("After pop list:"+ list1)
-
-    pipeline{
+       pipeline{
         agent { node('slave') }
         stages {
             stage ('print'){
