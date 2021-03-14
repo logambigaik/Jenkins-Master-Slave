@@ -61,3 +61,10 @@
             }
         }
     }
+
+
+# For docker -hub credetial pipeline script:
+
+![image](https://user-images.githubusercontent.com/54719289/111085557-bbff3380-850f-11eb-89ab-bd8c073c0d80.png)
+
+
